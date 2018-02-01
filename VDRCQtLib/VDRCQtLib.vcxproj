@@ -115,6 +115,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="constForVDRCOpenGLWidget.h" />
+    <ClInclude Include="VDRCOpenGLWidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="VDRCOpenGLWidget.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
