@@ -191,7 +191,7 @@ bool VDRCOpenGLWidget::set_eye_position()
 	glLoadIdentity();
 
 	const rg_Point3D target(localOrigin);
-	const rg_Point3D eyePt = localOrigin + localZ * EYE_DISTANCE;
+	const rg_Point3D eyePt = localOrigin + localZ * m_eyeDistance;
 	const rg_Point3D up(localY);
 
 	glMatrixMode(GL_MODELVIEW);
@@ -522,14 +522,13 @@ void VDRCOpenGLWidget::gl_select(int x, int y)
 	float aspect_ratio = (GLdouble)width() / (GLdouble)height();
 	glSelectBuffer(SELECTION_BUFFER_SIZE, m_buff);
 	glGetIntegerv(GL_VIEWPORT, view);
-	glRenderMode(GL_SELECT);
+	//glRenderMode(GL_SELECT);
 	glInitNames();
-	glPushName(0);
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
 	gluPickMatrix(x, y, SELECTION_BOX_SIZE, SELECTION_BOX_SIZE, view);
-	gluPerspective(45.0f / zoomFactor, aspect_ratio, 0.1f, 1000.0f);
+	gluPerspective(45.0f / zoomFactor, aspect_ratio, 0.1f, 10000.0f);
 	glMatrixMode(GL_MODELVIEW);
 
 	draw();
@@ -556,6 +555,9 @@ void VDRCOpenGLWidget::gl_select(int x, int y)
 			break;
 		}
 	}
+
+	/*if (m_selectedVtx != nullptr)
+		localOrigin = m_selectedVtx->getPoint();*/
 
 	glMatrixMode(GL_MODELVIEW);
 
@@ -619,4 +621,14 @@ VVertexCore* VDRCOpenGLWidget::find_closest_VVertex(const list<int>& elementIDLi
 	}
 
 	return closestVVertex;
+}
+
+
+
+void VDRCOpenGLWidget::enlist_VVertices(set<VVertexCore*>& vertices)
+{
+	for (auto& vertex : vertices)
+	{
+		m_mapForVVertexID[vertex->getID()] = vertex;
+	}
 }

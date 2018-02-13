@@ -3,7 +3,6 @@
 #include "Color3f.h"
 
 const int SPHERE_RESOLUTION = 100;
-const int EYE_DISTANCE = 1000;
 
 const float VEDGE_THICKNESS = 1.0f;
 
@@ -16,7 +15,7 @@ enum  PICK_MODE
 const int NUM_PICKING_CLASS = 10;
 const int CLASS_VVERTEX = 1;
 
-const float SELECTION_BOX_SIZE = 5.0;
+const float SELECTION_BOX_SIZE = 10.0;
 const int SELECTION_BUFFER_SIZE = 100;
 
 const float VVERTEX_BALL_RADIUS = 1;

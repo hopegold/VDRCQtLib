@@ -17,6 +17,7 @@
 #include <vector>
 #include <array>
 #include <map>
+#include <set>
 
 using namespace std;
 using namespace BULL;
@@ -60,6 +61,8 @@ public:
 
 	VVertexCore* m_selectedVtx;
 	bool m_bDisableRotation;
+
+	int m_eyeDistance = 1000;
 
 public:
 	explicit VDRCOpenGLWidget(QWidget *parent = 0);
@@ -107,4 +110,5 @@ public:
 	void gl_select(int x, int y);
 	bool find_selected_elements();
 	VVertexCore* find_closest_VVertex(const list<int>& elementIDList);
+	void enlist_VVertices(set<VVertexCore*>& vertices);
 };
