@@ -80,8 +80,8 @@ QSize VDRCOpenGLWidget::sizeHint() const
 void VDRCOpenGLWidget::initializeGL()
 {
 	glClearColor(1, 1, 1, 0);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glClearDepth(10000);
 	glEnable(GL_DEPTH_TEST);
@@ -105,7 +105,7 @@ void VDRCOpenGLWidget::initializeGL()
 void VDRCOpenGLWidget::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	set_eye_position();
+	initialize_eye_position();
 	zoom(zoomFactor);
 	draw();
 }
@@ -185,7 +185,7 @@ void VDRCOpenGLWidget::wheelEvent(QWheelEvent* event)
 	update();
 }
 
-bool VDRCOpenGLWidget::set_eye_position()
+bool VDRCOpenGLWidget::initialize_eye_position()
 {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -439,7 +439,7 @@ void VDRCOpenGLWidget::draw_line(const rg_Point3D& pt1, const rg_Point3D& pt2, c
 	glEnable(GL_LIGHTING);
 }
 
-void VDRCOpenGLWidget::draw_line_stipple(rg_Point3D& pt1, rg_Point3D& pt2, const float& thickness, const Color3f& color, const float& A /*= 1.0*/)
+void VDRCOpenGLWidget::draw_line_stipple(const rg_Point3D& pt1, const rg_Point3D& pt2, const float& thickness, const Color3f& color, const float& A /*= 1.0*/)
 {
 	glEnable(GL_LINE_STIPPLE);
 	draw_line(pt1, pt2, thickness, color, A);

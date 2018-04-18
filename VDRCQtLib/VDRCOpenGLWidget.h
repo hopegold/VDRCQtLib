@@ -80,10 +80,12 @@ public:
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);
 	void wheelEvent(QWheelEvent* event);
+	
 
-	bool    set_eye_position();
+	inline void set_eye_distance(const float& distance) { m_eyeDistance = distance; }
 	inline void set_local_origin(const float& x, const float& y, const float& z) { localOrigin.setPoint(x, y, z); }
 
+	bool		initialize_eye_position();
 	bool    rotate_eye_position(float angleX, float angleY, float angleZ);
 	//bool		rotate_eye_position_at_local_cener_point(float angleX, float angleY, float angleZ, rg_TMatrix3D& localCenterPt);
 
@@ -101,7 +103,7 @@ public:
 	void draw_sphere(const rg_Point3D& center, const float& radius, const Color3f& color, const float& A = 1.0, const int& elementID = -1);
 	void draw_point(rg_Point3D& pt, const float& ptSize, const Color3f& color, const float& A = 1.0, const int& elementID = -1);
 	void draw_line(const rg_Point3D& pt1, const rg_Point3D& pt2, const float& width, const Color3f& color, const float& A = 1.0);
-	void draw_line_stipple(rg_Point3D& pt1, rg_Point3D& pt2, const float& thickness, const Color3f& color, const float& A = 1.0);
+	void draw_line_stipple(const rg_Point3D& pt1, const rg_Point3D& pt2, const float& thickness, const Color3f& color, const float& A = 1.0);
 	void draw_face(const list<rg_Point3D>& points, const Color3f& color, const float& A = 1.0);
 	void draw_triangle(const array<rg_Point3D, 3>& points, const Color3f& color, const float& A = 1.0);
 	void draw_octagonal_cone(const rg_Point3D& base, const rg_Point3D& tip, const float& radius, const Color3f& color, const float& A = 1.0);
