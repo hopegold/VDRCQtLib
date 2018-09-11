@@ -58,7 +58,7 @@ localZ(0.0, 0.0, 1.0)
 	emittedMaterial[3] = 0.0f;
 	shininess = 25.0f;
 
-	zoomFactor = 10;
+	zoomFactor = 1;
 	m_bDisableRotation = false;
 }
 
@@ -80,11 +80,12 @@ QSize VDRCOpenGLWidget::sizeHint() const
 void VDRCOpenGLWidget::initializeGL()
 {
 	glClearColor(1, 1, 1, 0);
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glClearDepth(10000);
 	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 
 	glEnable(GL_CULL_FACE);
 	glShadeModel(GL_SMOOTH);
@@ -161,6 +162,8 @@ void VDRCOpenGLWidget::mousePressEvent(QMouseEvent *event)
 	}
 }
 
+
+
 void VDRCOpenGLWidget::mouseMoveEvent(QMouseEvent *event)
 {
 	int dx = event->x() - lastPos.x();
@@ -175,6 +178,8 @@ void VDRCOpenGLWidget::mouseMoveEvent(QMouseEvent *event)
 	update();
 }
 
+
+
 void VDRCOpenGLWidget::wheelEvent(QWheelEvent* event)
 {
 	zoomFactor += (float)event->delta()/1000.0f;
@@ -184,6 +189,8 @@ void VDRCOpenGLWidget::wheelEvent(QWheelEvent* event)
 	}
 	update();
 }
+
+
 
 bool VDRCOpenGLWidget::initialize_eye_position()
 {
@@ -216,6 +223,15 @@ bool VDRCOpenGLWidget::rotate_eye_position(float angleX, float angleY, float ang
 	return TRUE;
 }
 
+
+
+void VDRCOpenGLWidget::set_eye_direction(rg_Point3D eyeDirection)
+{
+	localZ = eyeDirection.getUnitVector();
+	localX = rg_Point3D(0, 1, 0).crossProduct(localZ).getUnitVector();
+	localY = localZ.crossProduct(localX).getUnitVector();
+}
+
 /*
 bool VDRCOpenGLWidget::rotate_eye_position_at_local_cener_point(float angleX, float angleY, float angleZ, rg_TMatrix3D& localCenterPt)
 {
@@ -233,6 +249,8 @@ bool VDRCOpenGLWidget::rotate_eye_position_at_local_cener_point(float angleX, fl
 
 	return TRUE;
 }*/
+
+
 
 bool VDRCOpenGLWidget::zoom(const float fScale)
 {
@@ -256,6 +274,8 @@ bool VDRCOpenGLWidget::zoom(const float fScale)
 	glMatrixMode(GL_MODELVIEW);
 	return true;
 }
+
+
 
 void VDRCOpenGLWidget::get_rotation(const rg_TMatrix3D& rotationMatrix, float*& rotationFactors) const
 {
@@ -315,7 +335,7 @@ void VDRCOpenGLWidget::get_rotation(const rg_TMatrix3D& rotationMatrix, float*& 
 
 
 
-void VDRCOpenGLWidget::draw_generators(const list<BallGeneratorCore*>& generators)
+void VDRCOpenGLWidget::draw_generators(const list<BallGeneratorCore*>& generators) const
 {
 	for (list<BallGeneratorCore*>::const_iterator itForGenerator = generators.begin(); itForGenerator != generators.end(); itForGenerator++)
 	{
@@ -345,7 +365,7 @@ void VDRCOpenGLWidget::draw_voronoi_vertex(const list<VVertexCore*>& VVertices, 
 
 
 
-void VDRCOpenGLWidget::draw_voronoi_edges(const list<VEdgeCore*>& VEdges, const float& thickness, const Color3f& color, const float& A, const bool& isStipple)
+void VDRCOpenGLWidget::draw_voronoi_edges(const list<VEdgeCore*>& VEdges, const float& thickness, const Color3f& color, const float& A, const bool& isStipple) const
 {
 	glDisable(GL_LIGHTING);
 	for (list<VEdgeCore*>::const_iterator itForEdge = VEdges.begin(); itForEdge != VEdges.end(); itForEdge++)
@@ -368,7 +388,7 @@ void VDRCOpenGLWidget::draw_voronoi_edges(const list<VEdgeCore*>& VEdges, const 
 
 
 
-void VDRCOpenGLWidget::draw_voronoi_faces(const list<VFaceCore*>& VFaces, const Color3f& color, const float& A)
+void VDRCOpenGLWidget::draw_voronoi_faces(const list<VFaceCore*>& VFaces, const Color3f& color, const float& A) const
 {
 
 	/*for (list<VFaceCore*>::const_iterator itForFace = VFaces.begin(); itForFace != VFaces.end(); itForFace++)
@@ -389,7 +409,7 @@ void VDRCOpenGLWidget::draw_voronoi_faces(const list<VFaceCore*>& VFaces, const 
 
 
 
-void VDRCOpenGLWidget::draw_sphere(const rg_Point3D& center, const float& radius, const Color3f& color, const float& A /*= 1.0*/, const int& elementID /*= -1*/)
+void VDRCOpenGLWidget::draw_sphere(const rg_Point3D& center, const float& radius, const Color3f& color, const float& A /*= 1.0*/, const int& elementID /*= -1*/) const
 {
 	glPushMatrix();
 
@@ -406,7 +426,7 @@ void VDRCOpenGLWidget::draw_sphere(const rg_Point3D& center, const float& radius
 
 
 
-void VDRCOpenGLWidget::draw_point(rg_Point3D& pt, const float& ptSize, const Color3f& color, const float& A /*= 1.0*/, const int& elementID /*= -1*/)
+void VDRCOpenGLWidget::draw_point(rg_Point3D& pt, const float& ptSize, const Color3f& color, const float& A /*= 1.0*/, const int& elementID /*= -1*/) const
 {
 	glDisable(GL_LIGHTING);
 
@@ -427,7 +447,7 @@ void VDRCOpenGLWidget::draw_point(rg_Point3D& pt, const float& ptSize, const Col
 
 
 
-void VDRCOpenGLWidget::draw_line(const rg_Point3D& pt1, const rg_Point3D& pt2, const float& width, const Color3f& color, const float& A /*= 1.0*/)
+void VDRCOpenGLWidget::draw_line(const rg_Point3D& pt1, const rg_Point3D& pt2, const float& width, const Color3f& color, const float& A /*= 1.0*/) const
 {
 	glDisable(GL_LIGHTING);
 	glLineWidth(width);
@@ -439,14 +459,14 @@ void VDRCOpenGLWidget::draw_line(const rg_Point3D& pt1, const rg_Point3D& pt2, c
 	glEnable(GL_LIGHTING);
 }
 
-void VDRCOpenGLWidget::draw_line_stipple(const rg_Point3D& pt1, const rg_Point3D& pt2, const float& thickness, const Color3f& color, const float& A /*= 1.0*/)
+void VDRCOpenGLWidget::draw_line_stipple(const rg_Point3D& pt1, const rg_Point3D& pt2, const float& thickness, const Color3f& color, const float& A /*= 1.0*/) const
 {
 	glEnable(GL_LINE_STIPPLE);
 	draw_line(pt1, pt2, thickness, color, A);
 	glDisable(GL_LINE_STIPPLE);
 }
 
-void VDRCOpenGLWidget::draw_face(const list<rg_Point3D>& points, const Color3f& color, const float& A /*= 1.0*/)
+void VDRCOpenGLWidget::draw_face(const list<rg_Point3D>& points, const Color3f& color, const float& A /*= 1.0*/) const
 {
 	//프론트라인 161227 - 페이스 그리는 코드 완성하기
 /*
@@ -459,7 +479,7 @@ void VDRCOpenGLWidget::draw_face(const list<rg_Point3D>& points, const Color3f& 
 
 
 
-void VDRCOpenGLWidget::draw_triangle(const array<rg_Point3D, 3>& points, const Color3f& color, const float& A /*= 1.0*/)
+void VDRCOpenGLWidget::draw_triangle(const array<rg_Point3D, 3>& points, const Color3f& color, const float& A /*= 1.0*/) const
 {
 	glColor4f(color.getR(), color.getG(), color.getB(), A);
 	glDisable(GL_CULL_FACE);
@@ -476,7 +496,7 @@ void VDRCOpenGLWidget::draw_triangle(const array<rg_Point3D, 3>& points, const C
 
 
 
-void VDRCOpenGLWidget::draw_octagonal_cone(const rg_Point3D& base, const rg_Point3D& tip, const float& radius, const Color3f& color, const float& A)
+void VDRCOpenGLWidget::draw_octagonal_cone(const rg_Point3D& base, const rg_Point3D& tip, const float& radius, const Color3f& color, const float& A) const
 {
 	rg_Point3D nVector = tip - base;
 	float orthY = radius*sqrt(1 / (1 + pow(nVector.getY(), 2) / pow(nVector.getZ(), 2)));
