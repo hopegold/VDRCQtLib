@@ -157,14 +157,6 @@
     </ClCompile>
     <ClCompile Include="VDRCOpenGLWidget.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\DynamicVoronoiDiagram\BULL\BULL.vcxproj">
-      <Project>{e5551c7a-b101-4ba3-b128-0aec8d721111}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\DynamicVoronoiDiagram\DynamicVD3DLib\DynamicVD3DLib.vcxproj">
-      <Project>{1b55a49e-5f6c-4be0-9703-d8282c02006a}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
