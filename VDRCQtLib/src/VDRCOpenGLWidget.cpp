@@ -3,7 +3,7 @@
 #include <QGLWidget>
 #include "VDRCOpenGLWidget.h"
 #include "constForVDRCOpenGLWidget.h"
-#include "DynamicBall.h"
+//#include "DynamicBall.h"
 
 VDRCOpenGLWidget::VDRCOpenGLWidget(QWidget *parent)
 	: QOpenGLWidget(parent),
@@ -340,10 +340,11 @@ void VDRCOpenGLWidget::draw_generators(const list<BallGeneratorCore*>& generator
 	for (list<BallGeneratorCore*>::const_iterator itForGenerator = generators.begin(); itForGenerator != generators.end(); itForGenerator++)
 	{
 		const BallGeneratorCore* generator = (*itForGenerator);
-		DynamicBall* corrBall = static_cast<DynamicBall*>(generator->getUserData());
-		Sphere sphere = corrBall->get_sphere();
-		const Color3f& color = corrBall->get_color();
-		draw_sphere(sphere.getCenter(), sphere.getRadius(), color);
+		
+		//DynamicBall* corrBall = static_cast<DynamicBall*>(generator->getUserData());
+		Sphere sphere = generator->getBall();
+		
+		draw_sphere(sphere.getCenter(), sphere.getRadius(), GREY);
 	}
 }
 

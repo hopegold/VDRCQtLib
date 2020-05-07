@@ -26,26 +26,32 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="vdrcqtlib_global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="constForVDRCOpenGLWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="VDRCOpenGLWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_VDRCOpenGLWidget.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_VDRCOpenGLWidget.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Color3f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VDRCOpenGLWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="VDRCOpenGLWidget.h">
+    <ClInclude Include="include\Color3f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\constForVDRCOpenGLWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vdrcqtlib_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="include\VDRCOpenGLWidget.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

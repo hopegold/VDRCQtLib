@@ -20,7 +20,7 @@
 #include <set>
 
 using namespace std;
-using namespace BULL;
+using namespace V;
 using namespace CoreTier;
 
 class VDRCOpenGLWidget : public QOpenGLWidget
