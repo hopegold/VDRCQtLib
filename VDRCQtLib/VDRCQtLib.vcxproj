@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6B446E23-249C-4819-A228-8E55CC99FF7C}</ProjectGuid>
     <Keyword>Qt4VSv1.0</Keyword>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -91,7 +91,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>VUFS.lib;V_Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>VUFS.lib;V_Core.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>C:\Users\Dominic\source\repos\dev_vdrc\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -130,7 +130,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>VUFS.lib;V_Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>VUFS.lib;V_Core.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>C:\Users\Dominic\source\repos\dev_vdrc\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

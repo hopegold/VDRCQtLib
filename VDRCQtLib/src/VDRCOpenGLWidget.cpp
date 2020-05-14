@@ -3,6 +3,7 @@
 #include <QGLWidget>
 #include "VDRCOpenGLWidget.h"
 #include "constForVDRCOpenGLWidget.h"
+#include "BisectorOfThreeBalls.h"
 //#include "DynamicBall.h"
 
 VDRCOpenGLWidget::VDRCOpenGLWidget(QWidget *parent)
@@ -387,6 +388,54 @@ void VDRCOpenGLWidget::draw_voronoi_edges(const list<VEdgeCore*>& VEdges, const 
 	glEnable(GL_LIGHTING);
 }
 
+void VDRCOpenGLWidget::draw_voronoi_edge(const VEdgeCore* VEdge, const float& thickness, const Color3f& color, const float& A, const bool& isStipple) const
+{
+	glDisable(GL_LIGHTING);
+
+	int index_parents = 0;
+	list<CoreTier::VCellCore*> incidentCells;
+	VEdge->findIncidentVCellsInRadialCCW(incidentCells);
+	CoreTier::BallGeneratorCore* parents[3];
+	for (list<CoreTier::VCellCore*>::iterator i_cell = incidentCells.begin(); i_cell != incidentCells.end(); ++i_cell) {
+		CoreTier::VCellCore* cell = *i_cell;
+		CoreTier::BallGeneratorCore* currGen = (CoreTier::BallGeneratorCore*)cell->getGenerator();
+		parents[index_parents] = currGen;
+		++index_parents;
+	}
+
+	bool b_thisEdgeIsLine = false;
+	if (rg_EQ(parents[0]->getBall().getRadius(), parents[1]->getBall().getRadius())
+		&& rg_EQ(parents[0]->getBall().getRadius(), parents[2]->getBall().getRadius())) {
+		b_thisEdgeIsLine = true;
+	}
+
+
+	if (b_thisEdgeIsLine)
+	{
+		rg_Point3D pt1 = VEdge->getStartVVertex()->getPoint();
+		rg_Point3D pt2 = VEdge->getEndVVertex()->getPoint();
+
+		if (isStipple == false)
+		{
+			draw_line(pt1, pt2, thickness, color, A);
+		}
+		else
+		{
+			draw_line_stipple(pt1, pt2, thickness, color, A);
+		}
+	}
+	else
+	{
+		//evaluate.. vedge..
+	}
+
+
+
+
+
+	glEnable(GL_LIGHTING);
+}
+
 
 
 void VDRCOpenGLWidget::draw_voronoi_faces(const list<VFaceCore*>& VFaces, const Color3f& color, const float& A) const
@@ -422,6 +471,32 @@ void VDRCOpenGLWidget::draw_sphere(const rg_Point3D& center, const float& radius
 	glColor4f(color.getR(), color.getG(), color.getB(), A);
 	glTranslated(center.getX(), center.getY(), center.getZ());
 	gluSphere(qObj, radius, SPHERE_RESOLUTION, SPHERE_RESOLUTION);
+	glPopMatrix();
+}
+
+void VDRCOpenGLWidget::draw_ellipsoid(const Ellipsoid3D& ellipsoid, const Color3f& color, const float& A, const int& elementID) const
+{
+	glPushMatrix();
+
+	if (elementID != -1)
+	{
+		glLoadName(elementID);
+	}
+	double x = ellipsoid.get_center().getX();
+	double y = ellipsoid.get_center().getY();
+	double z = ellipsoid.get_center().getZ();
+	double a = ellipsoid.get_a();
+	double b = ellipsoid.get_b();
+	double c = ellipsoid.get_c();
+	double xRatio = a / a;
+	double yRatio = b / a;
+	double zRatio = c / a;
+	glColor4f(color.getR(), color.getG(), color.getB(), A);
+	glTranslated(x, y, z);
+	glScaled(xRatio, yRatio, zRatio);
+	gluSphere(qObj, a, SPHERE_RESOLUTION, SPHERE_RESOLUTION);
+
+	
 	glPopMatrix();
 }
 

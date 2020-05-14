@@ -11,6 +11,7 @@
 #include "VEdgeCore.h"
 #include "VVertexCore.h"
 #include "VFaceCore.h"
+#include "Ellipsoid3D.h"
 
 #include "Color3f.h"
 #include <list>
@@ -98,10 +99,12 @@ public:
 	void draw_generators(const list<BallGeneratorCore*>& generators) const;
 	void draw_voronoi_vertex(const list<VVertexCore*>& VVertices, const float& ballRadius, const Color3f& color, const float& A = 1.0);
 	void draw_voronoi_edges(const list<VEdgeCore*>& VEdges, const float& thickness, const Color3f& color, const float& A = 1.0, const bool& isStipple = false) const;
+		void draw_voronoi_edge(const VEdgeCore* VEdge, const float& thickness, const Color3f& color, const float& A = 1.0, const bool& isStipple = false) const;
 	void draw_voronoi_faces(const list<VFaceCore*>& VFaces, const Color3f& color, const float& A = 1.0) const;
 
 	//Drawing geometric elements
 	void draw_sphere(const rg_Point3D& center, const float& radius, const Color3f& color, const float& A = 1.0, const int& elementID = -1) const;
+	void draw_ellipsoid(const Ellipsoid3D& ellipsoid, const Color3f& color, const float& A = 1.0, const int& elementID = -1) const;
 	void draw_point(rg_Point3D& pt, const float& ptSize, const Color3f& color, const float& A = 1.0, const int& elementID = -1) const;
 	void draw_line(const rg_Point3D& pt1, const rg_Point3D& pt2, const float& width, const Color3f& color, const float& A = 1.0) const;
 	void draw_line_stipple(const rg_Point3D& pt1, const rg_Point3D& pt2, const float& thickness, const Color3f& color, const float& A = 1.0) const;
