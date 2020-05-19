@@ -2,7 +2,7 @@
 
 #include "Color3f.h"
 
-const int SPHERE_RESOLUTION = 100;
+const int SPHERE_RESOLUTION = 6;
 
 const float VEDGE_THICKNESS = 1.0f;
 

@@ -392,46 +392,17 @@ void VDRCOpenGLWidget::draw_voronoi_edge(const VEdgeCore* VEdge, const float& th
 {
 	glDisable(GL_LIGHTING);
 
-	int index_parents = 0;
-	list<CoreTier::VCellCore*> incidentCells;
-	VEdge->findIncidentVCellsInRadialCCW(incidentCells);
-	CoreTier::BallGeneratorCore* parents[3];
-	for (list<CoreTier::VCellCore*>::iterator i_cell = incidentCells.begin(); i_cell != incidentCells.end(); ++i_cell) {
-		CoreTier::VCellCore* cell = *i_cell;
-		CoreTier::BallGeneratorCore* currGen = (CoreTier::BallGeneratorCore*)cell->getGenerator();
-		parents[index_parents] = currGen;
-		++index_parents;
-	}
+	rg_Point3D pt1 = VEdge->getStartVVertex()->getPoint();
+	rg_Point3D pt2 = VEdge->getEndVVertex()->getPoint();
 
-	bool b_thisEdgeIsLine = false;
-	if (rg_EQ(parents[0]->getBall().getRadius(), parents[1]->getBall().getRadius())
-		&& rg_EQ(parents[0]->getBall().getRadius(), parents[2]->getBall().getRadius())) {
-		b_thisEdgeIsLine = true;
-	}
-
-
-	if (b_thisEdgeIsLine)
+	if ( isStipple == false )
 	{
-		rg_Point3D pt1 = VEdge->getStartVVertex()->getPoint();
-		rg_Point3D pt2 = VEdge->getEndVVertex()->getPoint();
-
-		if (isStipple == false)
-		{
-			draw_line(pt1, pt2, thickness, color, A);
-		}
-		else
-		{
-			draw_line_stipple(pt1, pt2, thickness, color, A);
-		}
+		draw_line( pt1, pt2, thickness, color, A );
 	}
 	else
 	{
-		//evaluate.. vedge..
+		draw_line_stipple( pt1, pt2, thickness, color, A );
 	}
-
-
-
-
 
 	glEnable(GL_LIGHTING);
 }
